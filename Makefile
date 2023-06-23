@@ -1,10 +1,13 @@
+clean:
+	rm -rf dist
+
 install:
 	poetry install
 
 lock:
 	poetry lock
 
-build:
+build: clean
 	poetry build
 
 test:
