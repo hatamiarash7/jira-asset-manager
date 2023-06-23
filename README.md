@@ -1,6 +1,6 @@
 # Jira Asset Manager
 
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) ![GitHub release (release name instead of tag name)](https://img.shields.io/github/v/release/hatamiarash7/jira-asset-manager?sort=date)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) ![GitHub release (release name instead of tag name)](https://img.shields.io/github/v/release/hatamiarash7/jira-asset-manager?sort=date) ![GitHub](https://img.shields.io/github/license/hatamiarash7/jira-asset-manager)
 
 Manage Jira assets in your code or CLI.
 
