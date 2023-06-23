@@ -13,7 +13,3 @@ __author__ = "Arash Hatami <info@arash-hatami.ir>"
     JSON_ERROR,
     ID_ERROR,
 ) = range(7)
-
-ERRORS = {
-    ID_ERROR: "asset id error",
-}
