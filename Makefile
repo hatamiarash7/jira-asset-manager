@@ -11,4 +11,4 @@ build: clean
 	poetry build
 
 test:
-	python3 -m pytest tests/
+	pytest tests/
