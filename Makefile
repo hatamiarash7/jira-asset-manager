@@ -11,4 +11,4 @@ build: clean
 	poetry build
 
 test:
-	pytest tests/
+	poetry run pytest
