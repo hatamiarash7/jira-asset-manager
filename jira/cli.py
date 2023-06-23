@@ -75,6 +75,13 @@ def get_jira() -> jira.JiraAssetHandler:
         )
         raise typer.Exit(1)
 
+    if not config.JIRA_OBJECT:
+        typer.secho(
+            "JIRA_OBJECT environment variable not set.",
+            fg=typer.colors.RED,
+        )
+        raise typer.Exit(1)
+
     return jira.JiraAssetHandler(
         config.JIRA_SERVER,
         config.JIRA_PAT

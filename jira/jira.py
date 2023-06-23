@@ -2,7 +2,7 @@ import requests
 import json
 import typer
 
-from jira import utils
+from jira import utils, config
 
 
 class JiraAssetHandler:
@@ -17,7 +17,7 @@ class JiraAssetHandler:
     def get_asset(self, asset_name):
         path = '/object/navlist/aql'
         data = {
-            "objectTypeId": 22,
+            "objectTypeId": config.JIRA_OBJECT,
             "attributesToDisplay": {
                 "attributesToDisplayIds": ["155"]
             },
@@ -33,7 +33,7 @@ class JiraAssetHandler:
     def create_asset(self, role, name, sid, status, env, provider, dc, city, os, ip, bgp, katran):
         path = '/object/create'
         data = {
-            "objectTypeId": 22,
+            "objectTypeId": config.JIRA_OBJECT,
             "attributes": [
                 {
                     "objectTypeAttributeId": 141,
@@ -100,7 +100,7 @@ class JiraAssetHandler:
 
         path = f"/object/{id}"
         data = {
-            "objectTypeId": 22,
+            "objectTypeId": config.JIRA_OBJECT,
             "attributes": [
                 {
                     "objectTypeAttributeId": attr_name,
