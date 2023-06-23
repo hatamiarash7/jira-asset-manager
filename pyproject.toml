@@ -30,7 +30,7 @@ pytest = "^7"
 pytest = "^7"
 
 [tool.poetry.scripts]
-jira = "jira.main:app"
+jira = "jira.cli:app"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/hatamiarash7/jira-asset-manager/issues"
