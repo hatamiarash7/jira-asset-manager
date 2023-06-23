@@ -23,14 +23,15 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
-        os: [ubuntu-22.04, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Get version
-        run: echo "APP_VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+        run: |
+          APP_VERSION=${GITHUB_REF##*/}
+          echo "APP_VERSION=${APP_VERSION:1}" >> $GITHUB_ENV
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -71,6 +72,7 @@ jobs:
 
       - name: Publish
         uses: softprops/action-gh-release@v1
+        if: ${{ matrix.python-version == '3.10' }}
         with:
           files: |
             ./dist/jira-${{ env.APP_VERSION }}-py3-none-any.whl
