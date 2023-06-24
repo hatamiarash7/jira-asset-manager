@@ -6,7 +6,7 @@ Manage Jira assets in your code or CLI.
 
 ## Requirements
 
-- Python 3.7+
+- Python 3.8+
 
 ## How to use
 
