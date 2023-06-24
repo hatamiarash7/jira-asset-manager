@@ -88,10 +88,12 @@ class JiraAssetHandler:
         return self._make_api_call("POST", path, data)
 
     def update_asset(self, asset_name, attr_name, attr_value):
-        match attr_name:
-            case "status": attr_value = utils.getStatus(attr_value)
-            case "bgp": attr_value = utils.getBGP(attr_value)
-            case "katran": attr_value = utils.getKatran(attr_value)
+        if attr_name == 'status':
+            attr_value = utils.getStatus(attr_value)
+        elif attr_name == 'bgp':
+            attr_value = utils.getBGP(attr_value)
+        elif attr_name == 'katran':
+            attr_value = utils.getKatran(attr_value)
 
         attr_name = utils.getAttribute(attr_name)
 
