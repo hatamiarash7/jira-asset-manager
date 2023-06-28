@@ -26,9 +26,9 @@ def init() -> None:
     # Create schemas file
     schema_list = document()
     typer.secho("  -> Fetching schemas", fg=typer.colors.BRIGHT_GREEN)
-    schema_list.add(cm("Jira Asset Management - Schema list"))
-    schema_list.add(nl())
-    schema_list.add("Version", __version__)
+    schema_list.add(
+        cm(f"Jira Asset Management - Status list - v{__version__}")
+    )
     schemas = json.loads(get_jira().get_schema().text)
     for schema in schemas['objectschemas']:
         title = f"{schema['id']}:{schema['name']}"
@@ -46,9 +46,9 @@ def init() -> None:
     # Create attributes file
     typer.secho("  -> Fetching attributes", fg=typer.colors.BRIGHT_GREEN)
     attr_list = document()
-    attr_list.add(cm("Jira Asset Management - Attribute list"))
-    attr_list.add(nl())
-    attr_list.add("Version", __version__)
+    attr_list.add(
+        cm(f"Jira Asset Management - Status list - v{__version__}")
+    )
     for object in objects:
         result = json.loads(get_jira().get_attributes(object['id']).text)
         attributes = table()
@@ -61,6 +61,32 @@ def init() -> None:
         encoding="utf-8"
     ) as file:
         toml.dump(attr_list, file)
+
+    # Create statuses file
+    typer.secho("  -> Fetching statuses", fg=typer.colors.BRIGHT_GREEN)
+    status_list = document()
+    status_list.add(
+        cm(f"Jira Asset Management - Status list - v{__version__}")
+    )
+    status_list.add(nl())
+    globals = json.loads(get_jira().get_global_statustypes().text)
+    for status in globals:
+        status_list.add(status['name'], status['id'])
+    for schema in schemas['objectschemas']:
+        locals = json.loads(
+            get_jira().get_statustypes(schema['id']).text
+        )
+        temp = table()
+        for status in locals:
+            temp.add(status['name'], status['id'])
+        status_list.add(schema['name'], temp)
+
+    with open(
+        config.WORK_DIR+"/status.toml",
+        mode="w",
+        encoding="utf-8"
+    ) as file:
+        toml.dump(status_list, file)
 
     typer.secho("Done!", fg=typer.colors.GREEN)
 

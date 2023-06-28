@@ -143,6 +143,16 @@ class JiraAssetHandler:
         path = f'/objecttype/{objectType}/attributes'
         return self._make_api_call("GET", path, {})
 
+    # Status
+
+    def get_global_statustypes(self):
+        path = f'/config/statustype'
+        return self._make_api_call("GET", path, {})
+
+    def get_statustypes(self, id):
+        path = f'/config/statustype?objectSchemaId={id}'
+        return self._make_api_call("GET", path, {})
+
     def _make_api_call(self, method, path, data):
         try:
             response = requests.request(
