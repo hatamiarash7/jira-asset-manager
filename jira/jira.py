@@ -14,6 +14,8 @@ class JiraAssetHandler:
             "Authorization": "Bearer " + pat
         }
 
+    # Assets
+
     def get_asset(self, asset_name):
         path = '/object/navlist/aql'
         data = {
@@ -112,6 +114,8 @@ class JiraAssetHandler:
         }
         return self._make_api_call("PUT", path, data)
 
+    # Comments
+
     def add_comment(self, asset_name, comment):
         object = self.get_asset(asset_name)
         id = json.loads(object.text)['matchedFilterValues'][0]['objectId']
@@ -124,6 +128,20 @@ class JiraAssetHandler:
         }
 
         return self._make_api_call("POST", path, data)
+
+    # Objects
+
+    def get_schema(self):
+        path = '/objectschema/list'
+        return self._make_api_call("GET", path, {})
+
+    def get_objecttypes(self, id):
+        path = f'/objectschema/{id}/objecttypes/flat'
+        return self._make_api_call("GET", path, {})
+
+    def get_attributes(self, objectType):
+        path = f'/objecttype/{objectType}/attributes'
+        return self._make_api_call("GET", path, {})
 
     def _make_api_call(self, method, path, data):
         try:
