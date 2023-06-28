@@ -1,7 +1,7 @@
 """Top-level package for Jira."""
 
 __app_name__ = "jira"
-__version__ = "0.1.6"
+__version__ = "1.0.2"
 __author__ = "Arash Hatami <info@arash-hatami.ir>"
 
 (
