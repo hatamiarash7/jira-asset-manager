@@ -14,24 +14,21 @@ class JiraAssetHandler:
             "Authorization": "Bearer " + pat
         }
 
-    # Assets
+    # ------ Assets ------
 
-    def get_asset(self, asset_name):
+    def get_asset(self, schema, object, asset):
+        schema_id = config.getSchema(schema)
         path = '/object/navlist/aql'
         data = {
-            "objectTypeId": config.JIRA_OBJECT,
-            "attributesToDisplay": {
-                "attributesToDisplayIds": ["155"]
-            },
-            "page": 1,
-            "asc": 1,
-            "resultsPerPage": 25,
+            "objectTypeId": config.getObject(schema_id+":"+schema, object),
+            "resultsPerPage": 1,
             "includeAttributes": "false",
-            "objectSchemaId": "1",
-            "qlQuery": f"Name = \"{asset_name}\""
+            "objectSchemaId": schema_id,
+            "qlQuery": f"Name = \"{asset}\""
         }
         return self._make_api_call("POST", path, data)
 
+    # TODO: make it global
     def create_asset(self, role, name, sid, status, env, provider, dc, city, os, ip, bgp, katran):
         path = '/object/create'
         data = {
@@ -89,17 +86,11 @@ class JiraAssetHandler:
         }
         return self._make_api_call("POST", path, data)
 
-    def update_asset(self, asset_name, attr_name, attr_value):
-        if attr_name == 'status':
-            attr_value = utils.getStatus(attr_value)
-        elif attr_name == 'bgp':
-            attr_value = utils.getBGP(attr_value)
-        elif attr_name == 'katran':
-            attr_value = utils.getKatran(attr_value)
+    def update_asset(self, schema, object, asset_name, attr_name, attr_value):
+        attr_value = config.getAttributeValue(object, attr_name, attr_value)
+        attr_name = config.getAttribute(object, attr_name)
 
-        attr_name = utils.getAttribute(attr_name)
-
-        object = self.get_asset(asset_name)
+        object = self.get_asset(schema, object, asset_name)
         id = json.loads(object.text)['matchedFilterValues'][0]['objectId']
 
         path = f"/object/{id}"
@@ -114,10 +105,10 @@ class JiraAssetHandler:
         }
         return self._make_api_call("PUT", path, data)
 
-    # Comments
+    # ------ Comments ------
 
-    def add_comment(self, asset_name, comment):
-        object = self.get_asset(asset_name)
+    def add_comment(self, schema, object, asset_name, comment):
+        object = self.get_asset(schema, object, asset_name)
         id = json.loads(object.text)['matchedFilterValues'][0]['objectId']
 
         path = f"/comment/create"
@@ -129,7 +120,7 @@ class JiraAssetHandler:
 
         return self._make_api_call("POST", path, data)
 
-    # Objects
+    # ------ Objects ------
 
     def get_schema(self):
         path = '/objectschema/list'
@@ -143,7 +134,7 @@ class JiraAssetHandler:
         path = f'/objecttype/{objectType}/attributes'
         return self._make_api_call("GET", path, {})
 
-    # Status
+    # ------ Status ------
 
     def get_global_statustypes(self):
         path = f'/config/statustype'

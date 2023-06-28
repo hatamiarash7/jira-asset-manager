@@ -35,7 +35,7 @@ def init() -> None:
         schema_list.add(title, table())
         objects = json.loads(get_jira().get_objecttypes(schema['id']).text)
         for object in objects:
-            schema_list[title].add(object['name'], object['id'])
+            schema_list[title].add(object['name'].lower(), object['id'])
     with open(
         config.WORK_DIR+"/schemas.toml",
         mode="w",
@@ -53,8 +53,11 @@ def init() -> None:
         result = json.loads(get_jira().get_attributes(object['id']).text)
         attributes = table()
         for attribute in result:
-            attributes.add(attribute['name'], attribute['id'])
-        attr_list.add(object['name'], attributes)
+            attributes.add(
+                attribute['name'].lower() + "." + str(attribute['type']),
+                attribute['id']
+            )
+        attr_list.add(object['name'].lower(), attributes)
     with open(
         config.WORK_DIR+"/attributes.toml",
         mode="w",
@@ -71,14 +74,14 @@ def init() -> None:
     status_list.add(nl())
     globals = json.loads(get_jira().get_global_statustypes().text)
     for status in globals:
-        status_list.add(status['name'], status['id'])
+        status_list.add(status['name'].lower(), status['id'])
     for schema in schemas['objectschemas']:
         locals = json.loads(
             get_jira().get_statustypes(schema['id']).text
         )
         temp = table()
         for status in locals:
-            temp.add(status['name'], status['id'])
+            temp.add(status['name'].lower(), status['id'])
         status_list.add(schema['name'], temp)
 
     with open(
@@ -93,6 +96,12 @@ def init() -> None:
 
 @app.command()
 def comment(
+    schema: str = typer.Argument(
+        help="Your schema name"
+    ),
+    object: str = typer.Argument(
+        help="Your object name"
+    ),
     asset: str = typer.Argument(
         help="Asset's name"
     ),
@@ -101,7 +110,7 @@ def comment(
     )
 ) -> None:
     """Set a comment for your asset."""
-    result = get_jira().add_comment(asset, body)
+    result = get_jira().add_comment(schema, object, asset, body)
     if result:
         typer.secho(
             f"Comment added to asset '{asset}' successfully.",
@@ -117,6 +126,12 @@ def comment(
 
 @app.command()
 def attr(
+    schema: str = typer.Argument(
+        help="Your schema name"
+    ),
+    object: str = typer.Argument(
+        help="Your object name"
+    ),
     asset: str = typer.Argument(
         help="Asset's name"
     ),
@@ -128,7 +143,7 @@ def attr(
     )
 ) -> None:
     """Update an attribute of your asset."""
-    result = get_jira().update_asset(asset, name, value)
+    result = get_jira().update_asset(schema, object, asset, name, value)
     if result:
         typer.secho(
             f"Asset '{asset}' updated successfully.",
