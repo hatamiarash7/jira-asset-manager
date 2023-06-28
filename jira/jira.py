@@ -2,7 +2,7 @@ import requests
 import json
 import typer
 
-from jira import utils, config
+from jira import config
 
 
 class JiraAssetHandler:
