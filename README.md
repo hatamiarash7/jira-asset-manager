@@ -8,12 +8,22 @@ Manage Jira assets in your code or CLI.
 
 - Python 3.8+
 
-## How to use
+## Install
 
 ```bash
 poetry install
 jira --help
 ```
+
+## How-to
+
+First, you need to initialize the project:
+
+```bash
+jira init
+```
+
+This will get everything from your Jira server and save them to `~/.jira` directory.
 
 ### Configure
 
@@ -33,8 +43,8 @@ You need to add these environment variables to use the CLI:
 You can update asset's attribute using it's name. The script will get the asset id from the name automatically.
 
 ```bash
-jira attr <asset name> <attr name> <attr value>
-jira attr "Server-1" "IP" "1.2.3.4"
+jira attr <schema> <object> <asset name> <attr name> <attr value>
+jira attr "ITSM" "Servers" "Server-1" "IP" "1.2.3.4"
 ```
 
 ### Add comment
@@ -42,8 +52,8 @@ jira attr "Server-1" "IP" "1.2.3.4"
 You can add comment to an asset using it's name. The script will get the asset id from the name automatically.
 
 ```bash
-jira comment <asset name> <comment>
-jira comment "Server-1" "This is a comment"
+jira comment <schema> <object> <asset name> <comment>
+jira comment "ITSM" "Servers" "Server-1" "This is a comment"
 ```
 
 ---
