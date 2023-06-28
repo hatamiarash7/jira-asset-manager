@@ -1,12 +1,68 @@
 """This module provides the Jira CLI."""
 
+import json
+from pathlib import Path
+
+import tomlkit as toml
+from tomlkit import document, table, comment as cm, nl
 from typing import Optional
 import typer
+
 from jira import (
     __app_name__, __version__, __author__, jira, config
 )
 
 app = typer.Typer()
+
+
+@app.command()
+def init() -> None:
+    """Initialize Jira CLI."""
+    typer.secho("Initializing Jira CLI ...", fg=typer.colors.GREEN)
+
+    # Create work directory
+    Path(config.WORK_DIR).mkdir(parents=True, exist_ok=True)
+
+    # Create schemas file
+    schema_list = document()
+    typer.secho("  -> Fetching schemas", fg=typer.colors.BRIGHT_GREEN)
+    schema_list.add(cm("Jira Asset Management - Schema list"))
+    schema_list.add(nl())
+    schema_list.add("Version", __version__)
+    schemas = json.loads(get_jira().get_schema().text)
+    for schema in schemas['objectschemas']:
+        title = f"{schema['id']}:{schema['name']}"
+        schema_list.add(title, table())
+        objects = json.loads(get_jira().get_objecttypes(schema['id']).text)
+        for object in objects:
+            schema_list[title].add(object['name'], object['id'])
+    with open(
+        config.WORK_DIR+"/schemas.toml",
+        mode="w",
+        encoding="utf-8"
+    ) as file:
+        toml.dump(schema_list, file)
+
+    # Create attributes file
+    typer.secho("  -> Fetching attributes", fg=typer.colors.BRIGHT_GREEN)
+    attr_list = document()
+    attr_list.add(cm("Jira Asset Management - Attribute list"))
+    attr_list.add(nl())
+    attr_list.add("Version", __version__)
+    for object in objects:
+        result = json.loads(get_jira().get_attributes(object['id']).text)
+        attributes = table()
+        for attribute in result:
+            attributes.add(attribute['name'], attribute['id'])
+        attr_list.add(object['name'], attributes)
+    with open(
+        config.WORK_DIR+"/attributes.toml",
+        mode="w",
+        encoding="utf-8"
+    ) as file:
+        toml.dump(attr_list, file)
+
+    typer.secho("Done!", fg=typer.colors.GREEN)
 
 
 @app.command()
@@ -71,13 +127,6 @@ def get_jira() -> jira.JiraAssetHandler:
     if not config.JIRA_PAT:
         typer.secho(
             "JIRA_PAT environment variable not set.",
-            fg=typer.colors.RED,
-        )
-        raise typer.Exit(1)
-
-    if not config.JIRA_OBJECT:
-        typer.secho(
-            "JIRA_OBJECT environment variable not set.",
             fg=typer.colors.RED,
         )
         raise typer.Exit(1)
