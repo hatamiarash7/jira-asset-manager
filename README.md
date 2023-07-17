@@ -33,10 +33,14 @@ You need to add these environment variables to use the CLI:
 | ----------- | -------------------------------------------------- |
 | JIRA_SERVER | Jira server address like `https://jira.domain.com` |
 | JIRA_PAT    | Your personal access token                         |
-| JIRA_OBJECT | Object type id of your asset                       |
 
-- You should set/change your attribute `ID` and `Values` in `jira/jira.py`.
-- Use `jira/utils.py` to customize your attribute helper.
+After setting these variables, you can configure the CLI:
+
+```bash
+jira init
+```
+
+This command will get everything from your Jira server and save them to `~/.jira` directory for later use. With this data, you don't need to know/use ID of each asset/attribute.
 
 ### Update assets
 
