@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "jira"
-version = "1.0.2"
+name = "jira-amt"
+version = "1.1.0"
 license = "MIT"
 description = "Manage Jira assets."
 authors = ["Arash Hatami <hatamiarash7@gmail.com>"]
@@ -19,7 +19,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Development Status :: 5 - Production/Stable"
 ]
-packages = [{include = "jira"}]
+packages = [{include = "jira_amt"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -35,7 +35,7 @@ pytest = "^7"
 pytest = "^7"
 
 [tool.poetry.scripts]
-jira = "jira.cli:app"
+jira-amt = "jira_amt.cli:app"
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/hatamiarash7/jira-asset-manager/issues"

@@ -8,8 +8,8 @@ from tomlkit import document, table, comment as cm, nl
 from typing import Optional
 import typer
 
-from jira import (
-    __app_name__, __version__, __author__, jira, config
+from jira_amt import (
+    __app_name__, __version__, __author__, config, jira
 )
 
 app = typer.Typer()

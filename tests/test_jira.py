@@ -1,5 +1,5 @@
 from typer.testing import CliRunner
-from jira import __app_name__, __version__, __author__, cli
+from jira_amt import __app_name__, __version__, __author__, cli
 
 runner = CliRunner()
 

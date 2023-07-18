@@ -1,6 +1,6 @@
 """Jira entry point script."""
 
-from jira import cli, __app_name__
+from jira_amt import cli, __app_name__
 
 
 def main():
