@@ -17,16 +17,6 @@ jira-amt --help
 
 ## How-to
 
-First, you need to initialize the project:
-
-```bash
-jira-amt init
-```
-
-This will get everything from your Jira server and save them to `~/.jira` directory.
-
-### Configure
-
 You need to add these environment variables to use the CLI:
 
 | Variable    | Description                                        |
@@ -41,6 +31,10 @@ jira-amt init
 ```
 
 This command will get everything from your Jira server and save them to `~/.jira` directory for later use. With this data, you don't need to know/use ID of each asset/attribute.
+
+## CLI
+
+There is some commands to manage assets. Check them using the `--help` flag.
 
 ### Update assets
 
@@ -61,6 +55,39 @@ jira-amt comment "ITSM" "Servers" "Server-1" "This is a comment"
 ```
 
 ---
+
+## Package
+
+You can use this package in your code to manage Jira assets.
+
+```python
+from jira_amt.jira import JiraAssetHandler
+
+jira = JiraAssetHandler(
+    server="https://jira.example.com",
+    pat="ABCD1234"
+)
+```
+
+### Get asset
+
+```python
+asset = jira.get_asset("schema", "object", "asset's name")
+```
+
+### Create asset
+
+```python
+input = {
+    "Name": "Server-1",
+    "Status": "Running",
+    "Environment": "Production",
+    "OS": "Debian",
+    "IP": "1.2.3.4"
+}
+
+asset = jira.create_asset("schema", "object", input)
+```
 
 ## Support 💛
 
