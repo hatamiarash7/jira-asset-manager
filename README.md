@@ -12,7 +12,7 @@ Manage Jira assets in your code or CLI.
 
 ```bash
 poetry install
-jira --help
+jira-amt --help
 ```
 
 ## How-to
@@ -20,7 +20,7 @@ jira --help
 First, you need to initialize the project:
 
 ```bash
-jira init
+jira-amt init
 ```
 
 This will get everything from your Jira server and save them to `~/.jira` directory.
@@ -37,7 +37,7 @@ You need to add these environment variables to use the CLI:
 After setting these variables, you can configure the CLI:
 
 ```bash
-jira init
+jira-amt init
 ```
 
 This command will get everything from your Jira server and save them to `~/.jira` directory for later use. With this data, you don't need to know/use ID of each asset/attribute.
@@ -47,8 +47,8 @@ This command will get everything from your Jira server and save them to `~/.jira
 You can update asset's attribute using it's name. The script will get the asset id from the name automatically.
 
 ```bash
-jira attr <schema> <object> <asset name> <attr name> <attr value>
-jira attr "ITSM" "Servers" "Server-1" "IP" "1.2.3.4"
+jira-amt attr <schema> <object> <asset name> <attr name> <attr value>
+jira-amt attr "ITSM" "Servers" "Server-1" "IP" "1.2.3.4"
 ```
 
 ### Add comment
@@ -56,8 +56,8 @@ jira attr "ITSM" "Servers" "Server-1" "IP" "1.2.3.4"
 You can add comment to an asset using it's name. The script will get the asset id from the name automatically.
 
 ```bash
-jira comment <schema> <object> <asset name> <comment>
-jira comment "ITSM" "Servers" "Server-1" "This is a comment"
+jira-amt comment <schema> <object> <asset name> <comment>
+jira-amt comment "ITSM" "Servers" "Server-1" "This is a comment"
 ```
 
 ---
