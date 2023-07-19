@@ -78,5 +78,5 @@ jobs:
         with:
           fail_on_unmatched_files: true
           files: |
-            ./dist/jira-${{ env.APP_VERSION }}-py3-none-any.whl
-            ./dist/jira-${{ env.APP_VERSION }}.tar.gz
+            ./dist/jira_amt-${{ env.APP_VERSION }}-py3-none-any.whl
+            ./dist/jira_amt-${{ env.APP_VERSION }}.tar.gz
