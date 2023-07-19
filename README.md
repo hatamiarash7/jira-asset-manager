@@ -63,7 +63,7 @@ You can use this package in your code to manage Jira assets.
 from jira_amt.jira import JiraAssetHandler
 
 jira = JiraAssetHandler(
-    server="https://jira.example.com",
+    server="https://jira.domain.com",
     pat="ABCD1234"
 )
 ```
