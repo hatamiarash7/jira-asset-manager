@@ -28,61 +28,44 @@ class JiraAssetHandler:
         }
         return self._make_api_call("POST", path, data)
 
-    # TODO: make it global
-    def create_asset(self, role, name, sid, status, env, provider, dc, city, os, ip, bgp, katran):
+    def create_asset(self, schema, object, attributes):
+        schema_id = config.getSchema(schema)
+
+        input = []
+
+        for attribute_name, value in attributes.items():
+            object_type_attribute_id = config.getAttribute(
+                object,
+                attribute_name
+            )
+
+            if object_type_attribute_id is not None and isinstance(value, list):
+                output_dict = {
+                    "objectTypeAttributeId": object_type_attribute_id,
+                    "objectAttributeValues": [{"value": config.getAttributeValue(
+                        object,
+                        attribute_name,
+                        v
+                    )} for v in value]
+                }
+
+                input.append(output_dict)
+            elif object_type_attribute_id is not None:
+                output_dict = {
+                    "objectTypeAttributeId": object_type_attribute_id,
+                    "objectAttributeValues": [{"value": config.getAttributeValue(
+                        object,
+                        attribute_name,
+                        value
+                    )}]
+                }
+
+                input.append(output_dict)
+
         path = '/object/create'
         data = {
-            "objectTypeId": config.JIRA_OBJECT,
-            "attributes": [
-                {
-                    "objectTypeAttributeId": 141,
-                    "objectAttributeValues": [{"value": name}]
-                },
-                {
-                    "objectTypeAttributeId": "144",
-                    "objectAttributeValues": [{"value": utils.getStatus(status)}]
-                },
-                {
-                    "objectTypeAttributeId": "145",
-                    "objectAttributeValues": [{"value": env}]
-                },
-                {
-                    "objectTypeAttributeId": "156",
-                    "objectAttributeValues": [{"value": os}]
-                },
-                {
-                    "objectTypeAttributeId": "157",
-                    "objectAttributeValues": [{"value": ip}]
-                },
-                {
-                    "objectTypeAttributeId": "150",
-                    "objectAttributeValues": [{"value": utils.getBGP(bgp)}]
-                },
-                {
-                    "objectTypeAttributeId": "151",
-                    "objectAttributeValues": [{"value": utils.getKatran(katran)}]
-                },
-                {
-                    "objectTypeAttributeId": "152",
-                    "objectAttributeValues": [{"value": provider}]
-                },
-                {
-                    "objectTypeAttributeId": "153",
-                    "objectAttributeValues": [{"value": dc}]
-                },
-                {
-                    "objectTypeAttributeId": "154",
-                    "objectAttributeValues": [{"value": city}]
-                },
-                {
-                    "objectTypeAttributeId": "155",
-                    "objectAttributeValues": [{"value": sid}]
-                },
-                {
-                    "objectTypeAttributeId": "158",
-                    "objectAttributeValues": [{"value": role}]
-                }
-            ]
+            "objectTypeId": config.getObject(schema_id+":"+schema, object),
+            "attributes": input
         }
         return self._make_api_call("POST", path, data)
 
