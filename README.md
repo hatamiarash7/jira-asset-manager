@@ -11,8 +11,7 @@ Manage Jira assets in your code or CLI.
 ## Install
 
 ```bash
-poetry install
-jira-amt --help
+pip install jira-amt
 ```
 
 ## How-to
