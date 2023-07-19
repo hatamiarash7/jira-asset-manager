@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jira-amt"
-version = "1.1.1"
+version = "1.1.2"
 license = "MIT"
 description = "Manage Jira assets."
 authors = ["Arash Hatami <hatamiarash7@gmail.com>"]

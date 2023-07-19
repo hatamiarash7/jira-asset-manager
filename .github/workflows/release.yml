@@ -72,7 +72,7 @@ jobs:
       - name: Build
         run: poetry build
 
-      - name: Publish
+      - name: Publish - Github
         uses: softprops/action-gh-release@v1
         if: ${{ matrix.python-version == '3.10' }}
         with:
@@ -80,3 +80,11 @@ jobs:
           files: |
             ./dist/jira_amt-${{ env.APP_VERSION }}-py3-none-any.whl
             ./dist/jira_amt-${{ env.APP_VERSION }}.tar.gz
+
+      - name: Publish - PyPi
+        uses: JRubics/poetry-publish@v1.17
+        if: ${{ matrix.python-version == '3.10' }}
+        with:
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
+          python_version: ${{ matrix.python-version }}
+          ignore_dev_requirements: "yes"

@@ -1,7 +1,7 @@
 """Top-level package for Jira."""
 
-__app_name__ = "jira-asset-manager"
-__version__ = "1.1.1"
+__app_name__ = "jira-amt"
+__version__ = "1.1.2"
 __author__ = "Arash Hatami <info@arash-hatami.ir>"
 
 (
