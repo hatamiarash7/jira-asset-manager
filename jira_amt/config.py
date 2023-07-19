@@ -36,11 +36,11 @@ def getAttributes(name: str) -> str:
             return toml[attributes]
 
 
-def getAttribute(schema: str, name: str) -> str:
+def getAttribute(object: str, name: str) -> str:
     toml = getConfig('attributes')
 
     for attributes in toml:
-        if attributes == schema.lower():
+        if attributes == object.lower():
             for attribute in toml[attributes]:
                 if attribute.split('.')[0] == name.lower():
                     return toml[attributes][attribute]
