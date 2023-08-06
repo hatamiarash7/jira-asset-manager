@@ -3,11 +3,16 @@ name = "jira-amt"
 version = "1.1.2"
 license = "MIT"
 description = "Manage Jira assets."
-authors = ["Arash Hatami <hatamiarash7@gmail.com>"]
+authors = [
+    "Arash Hatami <hatamiarash7@gmail.com>",
+]
 readme = "README.md"
 homepage = "https://arash-hatami.ir"
 repository = "https://github.com/hatamiarash7/jira-asset-manager"
-keywords = ["jira", "asset"]
+keywords = [
+    "jira",
+    "asset",
+]
 classifiers = [
     "Topic :: Software Development",
     "Topic :: Software Development :: Libraries",
@@ -17,16 +22,20 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
-    "Development Status :: 5 - Production/Stable"
+    "Development Status :: 5 - Production/Stable",
 ]
-packages = [{include = "jira_amt"}]
+packages = [
+    { include = "jira_amt" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-typer = {extras = ["all"], version = "^0.9.0"}
+typer = { extras = [
+    "all",
+], version = "^0.9.0" }
 requests = "^2"
 urllib3 = "^1"
-tomlkit = "^0.11.8"
+tomlkit = "^0.12.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7"
@@ -41,5 +50,7 @@ jira-amt = "jira_amt.cli:app"
 "Bug Tracker" = "https://github.com/hatamiarash7/jira-asset-manager/issues"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = [
+    "poetry-core>=1.0.0",
+]
 build-backend = "poetry.core.masonry.api"
