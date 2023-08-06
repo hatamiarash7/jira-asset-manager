@@ -30,11 +30,14 @@ def init() -> None:
         cm(f"Jira Asset Management - Status list - v{__version__}")
     )
     schemas = json.loads(get_jira().get_schema().text)
+    objects = []
     for schema in schemas['objectschemas']:
         title = f"{schema['id']}:{schema['name']}"
         schema_list.add(title, table())
-        objects = json.loads(get_jira().get_objecttypes(schema['id']).text)
-        for object in objects:
+        objs = json.loads(get_jira().get_objecttypes(schema['id']).text)
+        for object in objs:
+            object['schema'] = schema['name']
+            objects.append(object)
             schema_list[title].add(object['name'].lower(), object['id'])
     with open(
         config.WORK_DIR+"/schemas.toml",
@@ -57,7 +60,10 @@ def init() -> None:
                 attribute['name'].lower() + "." + str(attribute['type']),
                 attribute['id']
             )
-        attr_list.add(object['name'].lower(), attributes)
+        attr_list.add(
+            object['name'].lower() + "." + str(object['schema']).lower(),
+            attributes
+        )
     with open(
         config.WORK_DIR+"/attributes.toml",
         mode="w",

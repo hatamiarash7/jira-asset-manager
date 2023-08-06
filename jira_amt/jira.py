@@ -35,7 +35,7 @@ class JiraAssetHandler:
 
         for attribute_name, value in attributes.items():
             object_type_attribute_id = config.getAttribute(
-                object,
+                object+"."+schema,
                 attribute_name
             )
 
@@ -43,7 +43,7 @@ class JiraAssetHandler:
                 output_dict = {
                     "objectTypeAttributeId": object_type_attribute_id,
                     "objectAttributeValues": [{"value": config.getAttributeValue(
-                        object,
+                        object+"."+schema,
                         attribute_name,
                         v
                     )} for v in value]
