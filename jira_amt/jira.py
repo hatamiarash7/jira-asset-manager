@@ -70,8 +70,18 @@ class JiraAssetHandler:
         return self._make_api_call("POST", path, data)
 
     def update_asset(self, schema, object, asset_name, attr_name, attr_value):
-        attr_value = config.getAttributeValue(object, attr_name, attr_value)
-        attr_name = config.getAttribute(object, attr_name)
+        attr_value = config.getAttributeValue(
+            object+"."+schema,
+            attr_name,
+            attr_value
+        )
+        attr_name = config.getAttribute(
+            object+"."+schema,
+            attr_name
+        )
+
+        print(attr_value)
+        print(attr_name)
 
         object = self.get_asset(schema, object, asset_name)
         id = json.loads(object.text)['matchedFilterValues'][0]['objectId']
