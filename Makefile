@@ -1,8 +1,11 @@
-.PHONY: clean install lock build test help
+.PHONY: clean shell install lock build init test help
 .DEFAULT_GOAL := help
 
 clean: ## Clean build files
 	rm -rf dist
+
+shell: ## Activate virtualenv
+	poetry shell
 
 install: ## Install dependencies
 	poetry install
@@ -12,6 +15,9 @@ lock: ## Update poetry.lock
 
 build: clean ## Build package
 	poetry build
+
+init: ## Run the application - Initialize JIRA
+	JIRA_SERVER="" JIRA_PAT="" jira-amt init
 
 test: ## Run tests
 	poetry run pytest
