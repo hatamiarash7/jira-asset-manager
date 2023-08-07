@@ -94,7 +94,7 @@ class JiraAssetHandler:
         object = self.get_asset(schema, object, asset_name)
         id = json.loads(object.text)['matchedFilterValues'][0]['objectId']
 
-        path = f"/comment/create"
+        path = "/comment/create"
         data = {
             "comment": comment,
             "objectId": f"{id}",
@@ -120,7 +120,7 @@ class JiraAssetHandler:
     # ------ Status ------
 
     def get_global_statustypes(self):
-        path = f'/config/statustype'
+        path = '/config/statustype'
         return self._make_api_call("GET", path, {})
 
     def get_statustypes(self, id):
