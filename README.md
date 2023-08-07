@@ -4,6 +4,22 @@
 
 Manage Jira assets in your code or CLI.
 
+- [Jira Asset Manager](#jira-asset-manager)
+  - [Requirements](#requirements)
+  - [Install](#install)
+  - [How-to](#how-to)
+  - [CLI](#cli)
+    - [Create assets](#create-assets)
+    - [Update assets](#update-assets)
+    - [Add comment](#add-comment)
+  - [Package](#package)
+    - [Get asset](#get-asset)
+    - [Create asset](#create-asset)
+    - [Update asset](#update-asset)
+    - [Add comment](#add-comment-1)
+  - [Support 💛](#support-)
+  - [Contributing 🤝](#contributing-)
+
 ## Requirements
 
 - Python 3.8+
@@ -34,6 +50,10 @@ This command will get everything from your Jira server and save them to `~/.jira
 ## CLI
 
 There is some commands to manage assets. Check them using the `--help` flag.
+
+### Create assets
+
+The asset creation in CLI is not make sense, because you need to enter all attributes in command line. But you can use it in your code.
 
 ### Update assets
 
@@ -72,6 +92,8 @@ jira = JiraAssetHandler(
 
 ```python
 asset = jira.get_asset("schema", "object", "asset's name")
+
+print(asset.text)
 ```
 
 ### Create asset
@@ -86,6 +108,22 @@ input = {
 }
 
 asset = jira.create_asset("schema", "object", input)
+```
+
+### Update asset
+
+```python
+asset = jira.get_asset("schema", "object", "asset's name")
+
+print(asset.text)
+```
+
+### Add comment
+
+```python
+result = jira.add_comment("schema", "object", "asset's name", "comment")
+
+print(result.status_code)
 ```
 
 ## Support 💛
