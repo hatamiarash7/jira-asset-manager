@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel previous workflow
-        uses: styfle/cancel-workflow-action@0.12.0
+        uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ github.token }}
 
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
 
       - name: Get version
         run: |
@@ -35,12 +35,12 @@ jobs:
           echo "APP_VERSION=${APP_VERSION:1}" >> $GITHUB_ENV
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Cache Poetry
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.local
           key: poetry-1.5-0
@@ -54,7 +54,7 @@ jobs:
 
       - name: Cache dependencies
         id: cache-deps
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .venv
           key: pydeps-${{ hashFiles('**/poetry.lock') }}
@@ -73,7 +73,7 @@ jobs:
         run: poetry build
 
       - name: Publish - Github
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         if: ${{ matrix.python-version == '3.10' }}
         with:
           fail_on_unmatched_files: true
@@ -82,7 +82,7 @@ jobs:
             ./dist/jira_amt-${{ env.APP_VERSION }}.tar.gz
 
       - name: Publish - PyPi
-        uses: JRubics/poetry-publish@v1.17
+        uses: JRubics/poetry-publish@v2.0
         if: ${{ matrix.python-version == '3.10' }}
         with:
           pypi_token: ${{ secrets.PYPI_TOKEN }}
